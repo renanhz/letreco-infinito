@@ -23,4 +23,29 @@ for (let i = 1; i <= MAX_LINES; i++ ) {
   wordContainer.appendChild(line);
 }
 
+onkeyup = (event) => {
+  console.log(event);
+  const keyCode = event.code;
+
+  if (keyCode.includes('Key')) {
+    const key = event.key;
+
+    addToLine(key);
+  }
+}
+
+function addToLine(key) {
+  const currentLineElement = wordContainer.children.item(currentLine);
+
+  const currentLetterElement = currentLineElement.children.item(currentLetter);
+
+  if (currentLetter < 5) {
+    currentLetterElement.innerHTML = `<span>${key.toUpperCase()}</span>`;
+
+    formedWord += key;
+    currentLetter++;
+  }
+  console.log(formedWord)
+}
+
 
