@@ -12,4 +12,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
+  font-weight: bold;
+}
+
+.right-letter {
+  background-color: #51B36E;
+  color: white;
+}
+
+.displaced-letter {
+  background-color: #C79C2E;
+  color: white;
+}
+
+.wrong-letter {
+  background-color: #3A3A3C;
+  color: white;
 }

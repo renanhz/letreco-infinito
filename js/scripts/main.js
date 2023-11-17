@@ -9,6 +9,8 @@ let currentLetter = 0;
 
 let formedWord = '';
 
+chooseRandomWord();
+
 for (let i = 1; i <= MAX_LINES; i++ ) {
   const line = document.createElement('div');
   line.className = 'word-line';
@@ -24,28 +26,51 @@ for (let i = 1; i <= MAX_LINES; i++ ) {
 }
 
 onkeyup = (event) => {
-  console.log(event);
   const keyCode = event.code;
+  const key = event.key;
 
   if (keyCode.includes('Key')) {
-    const key = event.key;
-
-    addToLine(key);
+    addLetter(key);
+  } else if (key === 'Backspace') {
+    removeLetter();
+  } else if (key === 'Enter') {
+    guessWord();
   }
 }
 
-function addToLine(key) {
+function addLetter(key) {
   const currentLineElement = wordContainer.children.item(currentLine);
-
   const currentLetterElement = currentLineElement.children.item(currentLetter);
-
-  if (currentLetter < 5) {
+  
+  if (!currentLetterElement.innerHTML) {
     currentLetterElement.innerHTML = `<span>${key.toUpperCase()}</span>`;
-
-    formedWord += key;
-    currentLetter++;
   }
-  console.log(formedWord)
+
+  if (currentLetter < 4) {
+    currentLetter ++;
+  }
 }
 
 
+function removeLetter() {
+  const currentLineElement = wordContainer.children.item(currentLine);
+  let currentLetterElement = currentLineElement.children.item(currentLetter);
+
+  if (!currentLetterElement.innerHTML) {
+    if (currentLetter >0) {
+      currentLetter--;
+    }
+    currentLetterElement = currentLineElement.children.item(currentLetter);
+  }
+
+  currentLetterElement.firstChild.remove();
+}
+
+function guessWord() {
+
+}
+
+function chooseRandomWord() {
+  const chosenWord = WORDS[Math.floor(Math.random() * WORDS.length)];
+  localStorage.setItem('chosenWord', chosenWord);
+}
