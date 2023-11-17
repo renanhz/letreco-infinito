@@ -39,8 +39,8 @@ onkeyup = (event) => {
 }
 
 function addLetter(key) {
-  const currentLineElement = wordContainer.children.item(currentLine);
-  const currentLetterElement = currentLineElement.children.item(currentLetter);
+  const currentLineElement = getCurrentLineElement();
+  const currentLetterElement = getCurrentLetterElement(currentLineElement);
   
   if (!currentLetterElement.innerHTML) {
     currentLetterElement.innerHTML = `<span>${key.toUpperCase()}</span>`;
@@ -51,23 +51,31 @@ function addLetter(key) {
   }
 }
 
+function getCurrentLineElement() {
+  return wordContainer.children.item(currentLine);
+}
+
+function getCurrentLetterElement(currentLineElement) {
+  return currentLineElement.children.item(currentLetter);
+}
+
 
 function removeLetter() {
-  const currentLineElement = wordContainer.children.item(currentLine);
-  let currentLetterElement = currentLineElement.children.item(currentLetter);
+  const currentLineElement = getCurrentLineElement();
+  let currentLetterElement = getCurrentLetterElement(currentLineElement);
 
-  if (!currentLetterElement.innerHTML) {
-    if (currentLetter >0) {
-      currentLetter--;
-    }
-    currentLetterElement = currentLineElement.children.item(currentLetter);
+  if (!currentLetterElement.innerHTML && currentLetter > 0) {
+    currentLetter--;
+    currentLetterElement = getCurrentLetterElement(currentLineElement);
   }
 
-  currentLetterElement.firstChild.remove();
+  if (currentLetterElement.innerHTML) {
+    currentLetterElement.firstChild.remove();
+  }
 }
 
 function guessWord() {
-
+  const currentLineElement = getCurrentLineElement();
 }
 
 function chooseRandomWord() {
