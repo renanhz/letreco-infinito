@@ -1,6 +1,7 @@
 import { VALID_GUESSES } from "../constants/validGuesses.js";
 import { WORDS } from "../constants/wordlist.js";
-import { MAX_LETTERS, MAX_LINES } from "../constants/magicNumbers.js"
+import { MAX_LETTERS, MAX_LINES } from "../constants/magicNumbers.js";
+import UIHandler from './uiHandler.js';
 
 const wordContainer = document.querySelector('.word-container');
 
@@ -37,14 +38,18 @@ function renderLetterBoxes() {
 onkeyup = (event) => {
   const keyCode = event.code;
   const key = event.key;
-  console.log(formedWord)
 
   if (keyCode.includes('Key')) {
     addLetter(key);
   } else if (key === 'Backspace') {
+    removeInvalidWordWarning();
     removeLetter();
-  } else if (key === 'Enter' && formedWord.length === MAX_LETTERS) {
-    guessWord();
+  } else if (key === 'Enter') {
+    if (canGuess()) {
+      guessWord();
+    } else {
+      showInvalidWordWarning();
+    }
   }
 }
 
@@ -86,6 +91,10 @@ function removeLetter() {
   }
 }
 
+function canGuess() {
+  return formedWord.length === MAX_LETTERS && VALID_GUESSES.includes(formedWord);
+}
+
 function guessWord() {
   const currentLineElement = getCurrentLineElement();
   const children = currentLineElement.children;
@@ -96,7 +105,7 @@ function guessWord() {
   console.log(formedWordLowerCase);
 
   if (formedWordLowerCase === chosenWordNormalized) {
-    applyRightLetterClass(children);
+    addRightLetterClass(children);
     // chamar api do dicionario, 
     // mostrando significado da palavra e frases prontas a utilizando
 
@@ -110,11 +119,11 @@ function guessWord() {
       const currentLetterBox = children.item(i);
 
       if (formedWordLetter === chosenWordLetter) {
-        applyClassToElement(currentLetterBox, 'right-letter');
+        addClassToElement(currentLetterBox, 'right-letter');
       } else if (chosenWordNormalized.includes(formedWordLetter)) {
-        applyClassToElement(currentLetterBox, 'displaced-letter');
+        addClassToElement(currentLetterBox, 'displaced-letter');
       } else {
-        applyClassToElement(currentLetterBox, 'wrong-letter');
+        addClassToElement(currentLetterBox, 'wrong-letter');
       }
 
     }
@@ -128,14 +137,18 @@ function removeAccentsFromWord(word) {
   return word.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 
-function applyRightLetterClass(children) {
+function addRightLetterClass(children) {
   Array.from(children).forEach(letterBox => {
-    applyClassToElement(letterBox, 'right-letter');
+    addClassToElement(letterBox, 'right-letter');
   });
 }
 
-function applyClassToElement(el, className) {
+function addClassToElement(el, className) {
   el.classList.add(className);
+}
+
+function removeClassFromElement(el, className) {
+  el.classList.remove(className);
 }
 
 function goToNextLine() {
@@ -146,5 +159,19 @@ function goToNextLine() {
   } else {
     //game over
   }
+}
+
+function showInvalidWordWarning() {
+  const currentLineElement = getCurrentLineElement();
+  Array.from(currentLineElement.children).forEach((letterBox) => {
+    addClassToElement(letterBox, 'invalid-word');
+  });
+}
+
+function removeInvalidWordWarning() {
+  const currentLineElement = getCurrentLineElement();
+  Array.from(currentLineElement.children).forEach((letterBox) => {
+    removeClassFromElement(letterBox, 'invalid-word');
+  });
 }
 

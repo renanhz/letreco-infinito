@@ -7,7 +7,7 @@
 }
 
 .word-letter {
-  border: 1px solid #000;
+  border: 2px solid #000;
   border-radius: 3px;
   display: flex;
   justify-content: center;
@@ -26,6 +26,10 @@
 }
 
 .wrong-letter {
-  background-color: #3A3A3C;
+  background-color: #943e3c;
   color: white;
+}
+
+.invalid-word {
+  border-color: #943e3c;
 }
