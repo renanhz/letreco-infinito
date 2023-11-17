@@ -1,9 +1,10 @@
 import { VALID_GUESSES } from "../constants/validGuesses.js";
 import { WORDS } from "../constants/wordlist.js";
-import { MAX_LETTERS, MAX_LINES } from "../constants/magicNumbers.js";
+import { MAX_LETTERS, MAX_LINES, KEYS } from "../constants/consts.js";
 import UIHandler from './uiHandler.js';
 
 const wordContainer = document.querySelector('.word-container');
+const keyboardContainer = document.querySelector('.keyboard-container');
 
 let currentLine = 0;
 let currentLetter = 0;
@@ -13,6 +14,7 @@ let chosenWord = '';
 
 chooseRandomWord();
 renderLetterBoxes();
+renderKeyboard();
 
 function chooseRandomWord() {
   chosenWord = WORDS[Math.floor(Math.random() * WORDS.length)];
@@ -34,6 +36,29 @@ function renderLetterBoxes() {
     wordContainer.appendChild(line);
   }
 }
+
+function renderKeyboard() {
+  KEYS.forEach(keyLine => {
+    let keys = keyLine.split('');
+    renderKeyLine(keys);
+  })
+}
+
+function renderKeyLine(keys) {
+  const line = document.createElement('div');
+  line.className = 'keyboard-line';
+
+  keys.forEach(key => {
+    const keyBox = document.createElement('button');
+    keyBox.className = 'key';
+    keyBox.textContent = key;
+
+    line.appendChild(keyBox);
+  });
+
+  keyboardContainer.appendChild(line);
+}
+
 
 onkeyup = (event) => {
   const keyCode = event.code;
