@@ -13,6 +13,7 @@
 }
 
 .key {
+  text-transform: uppercase;
   background: none;
   text-align: center;
   cursor: pointer;

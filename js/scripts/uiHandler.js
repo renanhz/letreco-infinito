@@ -1,7 +1,7 @@
 export default class UIHandler {
   static addClassToChildren(children, className) {
     Array.from(children).forEach(element => {
-      addClassToElement(element, className);
+      this.addClassToElement(element, className);
     });
   }
   
@@ -11,7 +11,7 @@ export default class UIHandler {
 
   static removeClassFromChildren(children, className) { 
     Array.from(children).forEach((element) => {
-      removeClassFromElement(element, className);
+      this.removeClassFromElement(element, className);
     });
   }
   

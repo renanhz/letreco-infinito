@@ -22,7 +22,7 @@ function chooseRandomWord() {
 }
 
 function renderLetterBoxes() {
-  for (let i = 1; i <= MAX_LINES; i++ ) {
+  for (let i = 0; i < MAX_LINES; i++ ) {
     const line = document.createElement('div');
     line.className = 'word-line';
   
@@ -49,15 +49,25 @@ function renderKeyLine(keys) {
   line.className = 'keyboard-line';
 
   keys.forEach(key => {
-    const keyBox = document.createElement('button');
-    keyBox.className = 'key';
-    keyBox.textContent = key;
-    keyBox.dataset['key'] = key;
-
+    const keyBox = createKeyboardButton(key);
     line.appendChild(keyBox);
   });
 
   keyboardContainer.appendChild(line);
+}
+
+function createKeyboardButton(key) {
+  const keyBox = document.createElement('button');
+
+  keyBox.className = 'key';
+  keyBox.textContent = key;
+  keyBox.dataset['key'] = key;
+
+  keyBox.addEventListener('click', (event) => {
+    addLetter(key)
+  });
+
+  return keyBox;
 }
 
 
