@@ -152,14 +152,19 @@ function guessWord() {
     for(let i = 0; i < formedWordLowerCase.length; i++) {
       const formedWordLetter = formedWordLowerCase.charAt(i);
       const chosenWordLetter = chosenWordNormalized.charAt(i);
+
       const currentLetterBox = children.item(i);
+      const keyBtn = document.querySelector(`[data-key="${formedWordLetter}"]`);
 
       if (formedWordLetter === chosenWordLetter) {
         UIHandler.addClassToElement(currentLetterBox, 'right-letter');
+        UIHandler.addClassToElement(keyBtn, 'right-letter');
       } else if (chosenWordNormalized.includes(formedWordLetter)) {
         UIHandler.addClassToElement(currentLetterBox, 'displaced-letter');
+        UIHandler.addClassToElement(keyBtn, 'displaced-letter');
       } else {
         UIHandler.addClassToElement(currentLetterBox, 'wrong-letter');
+        UIHandler.addClassToElement(keyBtn, 'wrong-letter');
       }
 
     }

@@ -16,20 +16,20 @@
 }
 
 .right-letter {
-  background-color: #51B36E;
+  background-color: #51B36E !important;
   color: white;
 }
 
 .displaced-letter {
-  background-color: #C79C2E;
+  background-color: #C79C2E !important;
   color: white;
 }
 
 .wrong-letter {
-  background-color: #943e3c;
+  background-color: #943e3c !important;
   color: white;
 }
 
 .invalid-word {
-  border-color: #943e3c;
+  border-color: #943e3c !important;
 }
