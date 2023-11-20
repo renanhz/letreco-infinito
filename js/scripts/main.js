@@ -52,6 +52,7 @@ function renderKeyLine(keys) {
     const keyBox = document.createElement('button');
     keyBox.className = 'key';
     keyBox.textContent = key;
+    keyBox.dataset['key'] = key;
 
     line.appendChild(keyBox);
   });
@@ -130,7 +131,7 @@ function guessWord() {
   console.log(formedWordLowerCase);
 
   if (formedWordLowerCase === chosenWordNormalized) {
-    addRightLetterClass(children);
+    UIHandler.addClassToChildren(children, 'right-letter');
     // chamar api do dicionario, 
     // mostrando significado da palavra e frases prontas a utilizando
 
@@ -144,11 +145,11 @@ function guessWord() {
       const currentLetterBox = children.item(i);
 
       if (formedWordLetter === chosenWordLetter) {
-        addClassToElement(currentLetterBox, 'right-letter');
+        UIHandler.addClassToElement(currentLetterBox, 'right-letter');
       } else if (chosenWordNormalized.includes(formedWordLetter)) {
-        addClassToElement(currentLetterBox, 'displaced-letter');
+        UIHandler.addClassToElement(currentLetterBox, 'displaced-letter');
       } else {
-        addClassToElement(currentLetterBox, 'wrong-letter');
+        UIHandler.addClassToElement(currentLetterBox, 'wrong-letter');
       }
 
     }
@@ -162,18 +163,18 @@ function removeAccentsFromWord(word) {
   return word.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
 }
 
-function addRightLetterClass(children) {
-  Array.from(children).forEach(letterBox => {
-    addClassToElement(letterBox, 'right-letter');
-  });
+function showInvalidWordWarning() {
+  const currentLineElement = getCurrentLineElement();
+  const children = currentLineElement.children;
+
+  UIHandler.addClassToChildren(children, 'invalid-word');
 }
 
-function addClassToElement(el, className) {
-  el.classList.add(className);
-}
+function removeInvalidWordWarning() {
+  const currentLineElement = getCurrentLineElement();
+  const children = currentLineElement.children;
 
-function removeClassFromElement(el, className) {
-  el.classList.remove(className);
+  UIHandler.removeClassFromChildren(children, 'invalid-word');
 }
 
 function goToNextLine() {
@@ -185,18 +186,3 @@ function goToNextLine() {
     //game over
   }
 }
-
-function showInvalidWordWarning() {
-  const currentLineElement = getCurrentLineElement();
-  Array.from(currentLineElement.children).forEach((letterBox) => {
-    addClassToElement(letterBox, 'invalid-word');
-  });
-}
-
-function removeInvalidWordWarning() {
-  const currentLineElement = getCurrentLineElement();
-  Array.from(currentLineElement.children).forEach((letterBox) => {
-    removeClassFromElement(letterBox, 'invalid-word');
-  });
-}
-
