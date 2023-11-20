@@ -78,16 +78,14 @@ onkeyup = (event) => {
   if (keyCode.includes('Key')) {
     addLetter(key);
   } else if (key === 'Backspace') {
-    removeInvalidWordWarning();
     removeLetter();
   } else if (key === 'Enter') {
-    if (canGuess()) {
-      guessWord();
-    } else {
-      showInvalidWordWarning();
-    }
+    onEnter();
   }
 }
+
+document.querySelector('#backspace-btn').addEventListener('click', removeLetter);
+document.querySelector('#enter-btn').addEventListener('click', onEnter);
 
 function addLetter(key) {
   const currentLineElement = getCurrentLineElement();
@@ -113,6 +111,8 @@ function getCurrentLetterElement(currentLineElement) {
 
 
 function removeLetter() {
+  removeInvalidWordWarning();
+
   const currentLineElement = getCurrentLineElement();
   let currentLetterElement = getCurrentLetterElement(currentLineElement);
 
@@ -125,6 +125,10 @@ function removeLetter() {
     currentLetterElement.firstChild.remove();
     formedWord = formedWord.slice(0, currentLetter);
   }
+}
+
+function onEnter() {
+  canGuess() ? guessWord() : showInvalidWordWarning();
 }
 
 function canGuess() {
