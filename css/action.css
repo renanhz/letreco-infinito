@@ -1,0 +1,12 @@
+.action-btn-container {
+  margin: 20px 0;
+}
+
+.action-btn {
+  margin: 0 8px;
+  padding: 12px 20px;
+  background: none;
+  border: 1px solid var(--border-color);
+  cursor: pointer;
+  font-weight: bold;
+}

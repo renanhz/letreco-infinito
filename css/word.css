@@ -7,7 +7,7 @@
 }
 
 .word-letter {
-  border: 2px solid #000;
+  border: 2px solid var(--border-color);
   border-radius: 3px;
   display: flex;
   justify-content: center;
@@ -16,20 +16,20 @@
 }
 
 .right-letter {
-  background-color: #51B36E !important;
+  background-color: var(--green) !important;
   color: white;
 }
 
 .displaced-letter {
-  background-color: #C79C2E !important;
+  background-color: var(--orange) !important;
   color: white;
 }
 
 .wrong-letter {
-  background-color: #943e3c !important;
+  background-color: var(--red) !important;
   color: white;
 }
 
 .invalid-word {
-  border-color: #943e3c !important;
+  border-color: var(--red) !important;
 }

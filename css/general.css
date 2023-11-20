@@ -1,4 +1,15 @@
+:root {
+  --background-color: #282A36;
+  --font-color: #F8F8F2;
+  --green: #50FA7B;
+  --orange: #FFB86C;
+  --red: #FF5555;
+  --border-color: #44475A;
+}
+
+
 * {
+  color: var(--font-color);
   font-family: Arial, Helvetica, sans-serif;
   box-sizing: border-box;
 }
@@ -8,6 +19,7 @@ html, body {
 }
 
 body {
+  background-color: var(--background-color);
   margin: 0;
 }
 

@@ -20,7 +20,7 @@
   padding: 12px 0px;
   width: 8%;
   margin: 0px 4px;
-  border: 1px solid #000;
+  border: 1px solid var(--border-color);
   border-radius: 3px;
   font-weight: bold;
 }
