@@ -19,3 +19,19 @@ body {
   flex-direction: column;
   align-items: center;
 }
+
+.backdrop {
+  display: none;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  inset: 0;
+  background-color: #00000073;
+}
+
+.alert {
+  position: absolute;
+  width: 100px;
+  height: 100px;
+  background-color: white;
+}
