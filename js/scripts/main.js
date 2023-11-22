@@ -88,6 +88,7 @@ onkeyup = (event) => {
 document.querySelector('#backspace-btn').addEventListener('click', removeLetter);
 document.querySelector('#enter-btn').addEventListener('click', onEnter);
 document.querySelector('#how-to-btn').addEventListener('click', showHowToDialog);
+document.querySelector('.close-btn').addEventListener('click', closeHowToDialog);
 
 function addLetter(key) {
   const currentLineElement = getCurrentLineElement();
@@ -214,4 +215,8 @@ function goToNextLine() {
 
 function showHowToDialog() {
   howToDialog.showModal();
+}
+
+function closeHowToDialog() {
+  howToDialog.close();
 }
