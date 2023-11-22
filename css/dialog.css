@@ -1,0 +1,17 @@
+dialog {
+  padding: 16px;
+  background-color: var(--background-color);
+  border: none;
+  border-radius: 5px;
+}
+
+dialog::backdrop {
+  background-color: #0000008a;
+}
+
+.close-btn {
+  top: 16px;
+  right: 16px;
+  position: absolute;
+  font-size: 18px;
+}

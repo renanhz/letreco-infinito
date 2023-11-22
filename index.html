@@ -4,16 +4,24 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
   <link rel="stylesheet" href="css/general.css">
   <link rel="stylesheet" href="css/word.css">
   <link rel="stylesheet" href="css/action.css">
   <link rel="stylesheet" href="css/keyboard.css">
+  <link rel="stylesheet" href="css/dialog.css">
 
   <title>Wordle</title>
 </head>
 <body>
   <div class="container">
-    <h1>WORDLE</h1>
+    <header>
+      <button id="how-to-btn" class="action-btn">
+        <i class="fa fa-circle-question"></i>
+      </button>
+      <h1>WORDLE</h1>
+    </header>
     <div class="word-container">
 
       
@@ -32,12 +40,40 @@
 
     </div>
   </div>
-  <div class="backdrop">
-    <div class="alert">
 
+  <dialog id="how-to-dialog">
+    <button class="close-btn">
+      <i class="fa fa-close"></i>
+    </button>
+    <h2>Como jogar</h2>
+    <h3>Adivinhe a palavra em 6 tentativas</h3>
+    <p>- Deve ser uma palavra válida de 5 letras</p>
+    <p>- As cores dos quadrados mudarão para indicar o quão perto você está da resposta</p>
+    <span>Exemplo:</span>
+    <div>
+      <div class="word-line">
+        <div class="word-letter right-letter">
+          C
+        </div>
+        <div class="word-letter displaced-letter">
+          E
+        </div>
+        <div class="word-letter wrong-letter">
+          R
+        </div>
+        <div class="word-letter wrong-letter">
+          T
+        </div>
+        <div class="word-letter wrong-letter">
+         O
+        </div>
+      </div>
     </div>
-  </div>
-  
+    <p>Letra <strong>C</strong> está na palavra e na posição correta</p>
+    <p>Letra <strong>E</strong> está na palavra mas na posição errada</p>
+    <p>Letras <strong>R, T e O</strong> não estão na palavra</p>
+    </div>
+  </dialog>
 
   <script src="js/scripts/main.js" type="module"></script>
 </body>

@@ -5,6 +5,7 @@ import UIHandler from './uiHandler.js';
 
 const wordContainer = document.querySelector('.word-container');
 const keyboardContainer = document.querySelector('.keyboard-container');
+const howToDialog = document.querySelector('#how-to-dialog');
 
 let currentLine = 0;
 let currentLetter = 0;
@@ -64,7 +65,7 @@ function createKeyboardButton(key) {
   keyBox.dataset['key'] = key;
 
   keyBox.addEventListener('click', (event) => {
-    addLetter(key)
+    addLetter(key);
   });
 
   return keyBox;
@@ -86,6 +87,7 @@ onkeyup = (event) => {
 
 document.querySelector('#backspace-btn').addEventListener('click', removeLetter);
 document.querySelector('#enter-btn').addEventListener('click', onEnter);
+document.querySelector('#how-to-btn').addEventListener('click', showHowToDialog);
 
 function addLetter(key) {
   const currentLineElement = getCurrentLineElement();
@@ -136,6 +138,10 @@ function canGuess() {
 }
 
 function guessWord() {
+  //mudar lógica, quando colocar uma letra repetida, 
+  //se já estiver acertado a posição e não tiver outra não deixar amarelo
+  //se houver acertado a posição e tiver outra deixar amarelo
+
   const currentLineElement = getCurrentLineElement();
   const children = currentLineElement.children;
 
@@ -204,4 +210,8 @@ function goToNextLine() {
   } else {
     //game over
   }
+}
+
+function showHowToDialog() {
+  howToDialog.showModal();
 }

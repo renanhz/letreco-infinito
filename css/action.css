@@ -5,13 +5,14 @@
 .action-btn {
   margin: 0 8px;
   padding: 12px 20px;
-  background: none;
   border: 1px solid var(--border-color);
-  cursor: pointer;
   font-weight: bold;
   transition: opacity 0.3s;
 }
 
-.action-btn:hover {
-  opacity: 0.7;
+#how-to-btn {
+  color: var(--font-color);
+  padding: 12px;
+  font-size: 20px;
+  border: none;
 }
