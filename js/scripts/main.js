@@ -6,6 +6,7 @@ import UIHandler from './uiHandler.js';
 const wordContainer = document.querySelector('.word-container');
 const keyboardContainer = document.querySelector('.keyboard-container');
 const howToDialog = document.querySelector('#how-to-dialog');
+const resultDialog = document.querySelector('#result-dialog');
 
 let currentLine = 0;
 let currentLetter = 0;
@@ -87,8 +88,13 @@ onkeyup = (event) => {
 
 document.querySelector('#backspace-btn').addEventListener('click', removeLetter);
 document.querySelector('#enter-btn').addEventListener('click', onEnter);
-document.querySelector('#how-to-btn').addEventListener('click', showHowToDialog);
-document.querySelector('.close-btn').addEventListener('click', closeHowToDialog);
+document.querySelector('#how-to-btn').addEventListener('click', () => {howToDialog.showModal();});
+
+document.querySelectorAll('.close-btn').forEach(closeBtn => {
+  closeBtn.addEventListener('click', (event) => {
+    event.target.parentElement.parentElement.close();
+  });
+});
 
 function addLetter(key) {
   const currentLineElement = getCurrentLineElement();
@@ -153,10 +159,8 @@ function guessWord() {
 
   if (formedWordLowerCase === chosenWordNormalized) {
     UIHandler.addClassToChildren(children, 'right-letter');
-    // chamar api do dicionario, 
-    // mostrando significado da palavra e frases prontas a utilizando
 
-    // mostrar botão play again // reseta tudo
+    showResultDialog(true);
   } else {
     //verificar letra por letra da formedWord com a chosenWord
 
@@ -180,13 +184,32 @@ function guessWord() {
 
     }
 
-    goToNextLine();
+    nexSteps();
   }
   
 }
 
 function removeAccentsFromWord(word) {
   return word.normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+}
+
+function showResultDialog(hasWon) {
+  if (hasWon) {
+    addResultBody('Você ganhou!');
+  } else {
+    addResultBody('Que pena, você perdeu...');
+  }
+
+  resultDialog.showModal();
+}
+
+function addResultBody(title) {
+  const resultBody = resultDialog.querySelector('.result');
+
+  resultBody.innerHTML = `
+    <h2>${title}</h2>
+    <p>A palavra escolhida era: <strong>${chosenWord}</strong></p>
+  `;
 }
 
 function showInvalidWordWarning() {
@@ -203,20 +226,18 @@ function removeInvalidWordWarning() {
   UIHandler.removeClassFromChildren(children, 'invalid-word');
 }
 
-function goToNextLine() {
-  if(currentLine < MAX_LINES) {
-    currentLine++;
-    currentLetter = 0;
-    formedWord = '';
+function nexSteps() {
+  console.log(currentLine)
+  if (currentLine < 5) {
+    goToNextLine();
   } else {
-    //game over
+    showResultDialog(false);
   }
+  
 }
 
-function showHowToDialog() {
-  howToDialog.showModal();
-}
-
-function closeHowToDialog() {
-  howToDialog.close();
+function goToNextLine() {
+  currentLine++;
+  currentLetter = 0;
+  formedWord = '';
 }

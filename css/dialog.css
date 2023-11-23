@@ -11,7 +11,7 @@ dialog::backdrop {
 
 .close-btn {
   top: 16px;
-  right: 16px;
+  right: 11px;
   position: absolute;
   font-size: 18px;
 }
