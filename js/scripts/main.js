@@ -96,12 +96,17 @@ document.querySelectorAll('.close-btn').forEach(closeBtn => {
   });
 });
 
+resultDialog.addEventListener('close', (event) => {
+  reset(); 
+});
+
+
 function addLetter(key) {
   const currentLineElement = getCurrentLineElement();
   const currentLetterElement = getCurrentLetterElement(currentLineElement);
   
   if (!currentLetterElement.innerHTML) {
-    currentLetterElement.innerHTML = `<span>${key.toUpperCase()}</span>`;
+    currentLetterElement.textContent = key.toUpperCase();
     formedWord+=key;
   }
 
@@ -227,7 +232,6 @@ function removeInvalidWordWarning() {
 }
 
 function nexSteps() {
-  console.log(currentLine)
   if (currentLine < 5) {
     goToNextLine();
   } else {
@@ -240,4 +244,18 @@ function goToNextLine() {
   currentLine++;
   currentLetter = 0;
   formedWord = '';
+}
+
+function reset() {
+  chooseRandomWord();
+
+  wordContainer.innerHTML = '';
+  renderLetterBoxes();
+
+  keyboardContainer.innerHTML = '';
+  renderKeyboard();
+
+  formedWord = '';
+  currentLine = 0;
+  currentLetter = 0;
 }
