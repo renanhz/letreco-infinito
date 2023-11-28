@@ -1,5 +1,6 @@
 const template = document.createElement('template');
 template.innerHTML = `
+  <h3>Estatísticas</h3>
   <div class="container">
     <div>
       <h4 id="total-plays"></h4>
@@ -29,7 +30,7 @@ export default class Stats extends HTMLElement {
 
     this.attachShadow({mode: 'open'});
     this.shadowRoot.appendChild(this._styles());
-    this.shadowRoot.appendChild(template.cloneNode(true));
+    this.shadowRoot.appendChild(template.content.cloneNode(true));
 
     this.stats = JSON.parse(localStorage.getItem('stats')) || {
         totalPlays: 0,
@@ -38,7 +39,7 @@ export default class Stats extends HTMLElement {
         maxStreak: 0
       };
       
-    
+    this._updateTemplate();
   }
 
   updateStats(hasWon) {
@@ -60,10 +61,10 @@ export default class Stats extends HTMLElement {
   }
 
   _updateTemplate() {
-    this.shadowRoot.querySelector('#total-plays').textContent = this.stats.totalPlays;
-    this.shadowRoot.querySelector('#total-wins').textContent = `${this.stats.totalWins / this.stats.totalPlays} %`;
-    this.shadowRoot.querySelector('#current-streak').textContent = this.stats.currentStreak;
-    this.shadowRoot.querySelector('#max-streak').textContent = this.stats.maxStreak;
+    this.shadowRoot.querySelector('#total-plays').innerText = this.stats.totalPlays;
+    this.shadowRoot.querySelector('#total-wins').innerText = `${(this.stats.totalWins / this.stats.totalPlays)*100}%`;
+    this.shadowRoot.querySelector('#current-streak').innerText = this.stats.currentStreak;
+    this.shadowRoot.querySelector('#max-streak').innerText = this.stats.maxStreak;
   }
 
   _saveStatsStorage() {
@@ -77,7 +78,13 @@ export default class Stats extends HTMLElement {
         color: var(--font-color);
       }
 
+      h4 {
+        white-space: nowrap;
+        margin 0.5em 0 !imprtant;
+      }
+
       .container {
+        flex-wrap: wrap;
         width: 100%;
         display: flex;
         justify-content: space-between;
@@ -85,11 +92,21 @@ export default class Stats extends HTMLElement {
 
       .container div {
         padding: 4px;
+        margin: 0 1em;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        text-align: center;
+      }
+
+      @media (max-width: 425px) {
+        .container {
+          flex-direction: column;
+        }
       }
     `;
     return style;
   }
 
 }
-
-window.customElements.define('stats', Stats);
+window.customElements.define('game-stats', Stats);

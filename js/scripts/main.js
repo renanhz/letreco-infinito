@@ -2,6 +2,7 @@ import { VALID_GUESSES } from "../constants/validGuesses.js";
 import { WORDS } from "../constants/wordlist.js";
 import { MAX_LETTERS, MAX_LINES, KEYS } from "../constants/consts.js";
 import UIHandler from './uiHandler.js';
+import Stats from './stats.js';
 
 const wordContainer = document.querySelector('.word-container');
 const keyboardContainer = document.querySelector('.keyboard-container');
@@ -199,22 +200,24 @@ function removeAccentsFromWord(word) {
 }
 
 function showResultDialog(hasWon) {
-  if (hasWon) {
-    addResultBody('Você ganhou!');
-  } else {
-    addResultBody('Que pena, você perdeu...');
-  }
+  addResultBody(hasWon);
 
   resultDialog.showModal();
 }
 
-function addResultBody(title) {
+function addResultBody(hasWon) {
   const resultBody = resultDialog.querySelector('.result');
+  const title = hasWon ? 'Você ganhou!' : 'Que pena, você perdeu...';
 
   resultBody.innerHTML = `
     <h2>${title}</h2>
     <p>A palavra escolhida era: <strong>${chosenWord}</strong></p>
   `;
+
+  const stats = document.createElement('game-stats');
+  stats.updateStats(hasWon);
+
+  resultBody.appendChild(stats);
 }
 
 function showInvalidWordWarning() {
