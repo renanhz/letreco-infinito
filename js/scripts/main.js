@@ -3,35 +3,52 @@ import { WORDS } from "../constants/wordlist.js";
 import { MAX_LETTERS, MAX_LINES, KEYS } from "../constants/consts.js";
 import UIHandler from './uiHandler.js';
 import Stats from './stats.js';
+import Storage from "./storage.js";
 
 const wordContainer = document.querySelector('.word-container');
 const keyboardContainer = document.querySelector('.keyboard-container');
 const howToDialog = document.querySelector('#how-to-dialog');
 const resultDialog = document.querySelector('#result-dialog');
 
-let currentLine = 0;
 let currentLetter = 0;
 
 let formedWord = '';
 let chosenWord = '';
 
-chooseRandomWord();
+let currentGame = Storage.getGame();  
+let currentLine = currentGame.guesses.length ? currentGame.guesses.length - 1 : 0;
+
 renderLetterBoxes();
 renderKeyboard();
+
+const storageChosenWord = Storage.getChosenWord();
+if (storageChosenWord) {
+  chosenWord = storageChosenWord;
+} else {
+  chooseRandomWord();
+}
 
 function chooseRandomWord() {
   chosenWord = WORDS[Math.floor(Math.random() * WORDS.length)];
   console.log(chosenWord);
+  
+  Storage.saveChosenWord(chosenWord);
 }
 
 function renderLetterBoxes() {
-  for (let i = 0; i < MAX_LINES; i++ ) {
+  for (let lineIndex = 0; lineIndex < MAX_LINES; lineIndex++ ) {
+    const savedLine = currentGame.guesses[lineIndex];
     const line = document.createElement('div');
     line.className = 'word-line';
-  
-    for (let j = 0; j < MAX_LETTERS; j++) {
+
+    for (let letterIndex = 0; letterIndex < MAX_LETTERS; letterIndex++) {
       const letter = document.createElement('div');
       letter.className = 'word-letter';
+
+      if (savedLine) {
+        letter.textContent = savedLine[letterIndex].letter;
+        letter.classList.add(savedLine[letterIndex].class);
+      }
   
       line.appendChild(letter);
     }
@@ -65,6 +82,10 @@ function createKeyboardButton(key) {
   keyBox.className = 'key';
   keyBox.textContent = key;
   keyBox.dataset['key'] = key;
+
+  if (currentGame.letters[key]) {
+    keyBox.classList.add(currentGame.letters[key]);
+  }
 
   keyBox.addEventListener('click', (event) => {
     addLetter(key);
@@ -155,8 +176,7 @@ function guessWord() {
   //se já estiver acertado a posição e não tiver outra não deixar amarelo
   //se houver acertado a posição e tiver outra deixar amarelo
 
-  const currentLineElement = getCurrentLineElement();
-  const children = currentLineElement.children;
+  const children = getCurrentLineElement().children;
 
   const chosenWordNormalized = removeAccentsFromWord(chosenWord);
   const formedWordLowerCase = formedWord.toLowerCase();
@@ -167,8 +187,9 @@ function guessWord() {
     UIHandler.addClassToChildren(children, 'right-letter');
 
     showResultDialog(true);
+    Storage.clearGame();
   } else {
-    //verificar letra por letra da formedWord com a chosenWord
+    currentGame.guesses[currentLine] = [];
 
     for(let i = 0; i < formedWordLowerCase.length; i++) {
       const formedWordLetter = formedWordLowerCase.charAt(i);
@@ -176,16 +197,13 @@ function guessWord() {
 
       const currentLetterBox = children.item(i);
       const keyBtn = document.querySelector(`[data-key="${formedWordLetter}"]`);
-
+      
       if (formedWordLetter === chosenWordLetter) {
-        UIHandler.addClassToElement(currentLetterBox, 'right-letter');
-        UIHandler.addClassToElement(keyBtn, 'right-letter');
+        updateCurrentLineElement(currentLetterBox, i, keyBtn, 'right-letter');
       } else if (chosenWordNormalized.includes(formedWordLetter)) {
-        UIHandler.addClassToElement(currentLetterBox, 'displaced-letter');
-        UIHandler.addClassToElement(keyBtn, 'displaced-letter');
+        updateCurrentLineElement(currentLetterBox, i, keyBtn, 'displaced-letter');
       } else {
-        UIHandler.addClassToElement(currentLetterBox, 'wrong-letter');
-        UIHandler.addClassToElement(keyBtn, 'wrong-letter');
+        updateCurrentLineElement(currentLetterBox, i, keyBtn, 'wrong-letter');
       }
 
     }
@@ -193,6 +211,13 @@ function guessWord() {
     nexSteps();
   }
   
+}
+
+function updateCurrentLineElement(currentLetterBox, index, key, className) {
+  currentGame.guesses[currentLine][index] = {letter: key.textContent, class: className};
+  currentGame.letters[key.textContent] = className;
+  UIHandler.addClassToElement(currentLetterBox, className);
+  UIHandler.addClassToElement(key, className);
 }
 
 function removeAccentsFromWord(word) {
@@ -236,9 +261,11 @@ function removeInvalidWordWarning() {
 
 function nexSteps() {
   if (currentLine < 5) {
+    Storage.saveGame(currentGame);
     goToNextLine();
   } else {
     showResultDialog(false);
+    Storage.clearGame();
   }
   
 }
