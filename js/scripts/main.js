@@ -16,7 +16,7 @@ let formedWord = '';
 let chosenWord = '';
 
 let currentGame = Storage.getGame();  
-let currentLine = currentGame.guesses.length ? currentGame.guesses.length - 1 : 0;
+let currentLine = currentGame.guesses.length;
 
 renderLetterBoxes();
 renderKeyboard();
@@ -30,7 +30,6 @@ if (storageChosenWord) {
 
 function chooseRandomWord() {
   chosenWord = WORDS[Math.floor(Math.random() * WORDS.length)];
-  console.log(chosenWord);
   
   Storage.saveChosenWord(chosenWord);
 }
@@ -277,6 +276,7 @@ function goToNextLine() {
 }
 
 function reset() {
+  Storage.clearGame();
   chooseRandomWord();
 
   wordContainer.innerHTML = '';
