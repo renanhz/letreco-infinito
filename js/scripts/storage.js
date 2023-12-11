@@ -21,4 +21,17 @@ export default class Storage {
   static getChosenWord() {
     return localStorage.getItem('chosenWord');
   }
+
+  static saveStats(stats) {
+    localStorage.setItem('stats', JSON.stringify(stats));
+  }
+
+  static getStats() { 
+    return JSON.parse(localStorage.getItem('stats')) || {
+      totalPlays: 0,
+      totalWins: 0,
+      currentStreak: 0,
+      maxStreak: 0
+    };
+  }
 }

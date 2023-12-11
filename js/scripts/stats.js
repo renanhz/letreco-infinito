@@ -1,3 +1,5 @@
+import Storage from "./storage.js";
+
 const template = document.createElement('template');
 template.innerHTML = `
   <h3>Estatísticas</h3>
@@ -32,12 +34,7 @@ export default class Stats extends HTMLElement {
     this.shadowRoot.appendChild(this._styles());
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.stats = JSON.parse(localStorage.getItem('stats')) || {
-        totalPlays: 0,
-        totalWins: 0,
-        currentStreak: 0,
-        maxStreak: 0
-      };
+    this.stats = Storage.getStats();
       
     this._updateTemplate();
   }
@@ -68,7 +65,7 @@ export default class Stats extends HTMLElement {
   }
 
   _saveStatsStorage() {
-    localStorage.setItem('stats', JSON.stringify(this.stats));
+    Storage.saveStats(this.stats);
   }
 
   _styles() {
