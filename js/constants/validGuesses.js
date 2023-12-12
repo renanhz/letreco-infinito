@@ -14223,6 +14223,7 @@ export const VALID_GUESSES = [
   "reuso",
   "revel",
   "revem",
+  "rever",
   "reves",
   "revoa",
   "rexes",
