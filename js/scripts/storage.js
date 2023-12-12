@@ -5,7 +5,7 @@ export default class GameStorage {
   }
   
   static clearGame() {
-    localStorage.clear('currentGame');
+    localStorage.removeItem('currentGame');
   }
   
   static getGame() {
