@@ -3,7 +3,7 @@ import { WORDS } from "../constants/wordlist.js";
 import { MAX_LETTERS, MAX_LINES, KEYS } from "../constants/consts.js";
 import UIHandler from './uiHandler.js';
 import Stats from './stats.js';
-import Storage from "./storage.js";
+import GameStorage from "./storage.js";
 
 const wordContainer = document.querySelector('.word-container');
 const keyboardContainer = document.querySelector('.keyboard-container');
@@ -15,13 +15,13 @@ let currentLetter = 0;
 let formedWord = '';
 let chosenWord = '';
 
-let currentGame = Storage.getGame();  
+let currentGame = GameStorage.getGame();  
 let currentLine = currentGame.guesses.length;
 
 renderLetterBoxes();
 renderKeyboard();
 
-const storageChosenWord = Storage.getChosenWord();
+const storageChosenWord = GameStorage.getChosenWord();
 if (storageChosenWord) {
   chosenWord = storageChosenWord;
 } else {
@@ -31,7 +31,7 @@ if (storageChosenWord) {
 function chooseRandomWord() {
   chosenWord = WORDS[Math.floor(Math.random() * WORDS.length)];
   
-  Storage.saveChosenWord(chosenWord);
+  GameStorage.saveChosenWord(chosenWord);
 }
 
 function renderLetterBoxes() {
@@ -180,13 +180,11 @@ function guessWord() {
   const chosenWordNormalized = removeAccentsFromWord(chosenWord);
   const formedWordLowerCase = formedWord.toLowerCase();
 
-  console.log(formedWordLowerCase);
-
   if (formedWordLowerCase === chosenWordNormalized) {
     UIHandler.addClassToChildren(children, 'right-letter');
 
     showResultDialog(true);
-    Storage.clearGame();
+    GameStorage.clearGame();
   } else {
     currentGame.guesses[currentLine] = [];
 
@@ -260,11 +258,11 @@ function removeInvalidWordWarning() {
 
 function nexSteps() {
   if (currentLine < 5) {
-    Storage.saveGame(currentGame);
+    GameStorage.saveGame(currentGame);
     goToNextLine();
   } else {
     showResultDialog(false);
-    Storage.clearGame();
+    GameStorage.clearGame();
   }
   
 }
@@ -276,7 +274,7 @@ function goToNextLine() {
 }
 
 function reset() {
-  Storage.clearGame();
+  GameStorage.clearGame();
   chooseRandomWord();
 
   wordContainer.innerHTML = '';

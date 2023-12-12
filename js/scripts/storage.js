@@ -1,4 +1,4 @@
-export default class Storage {
+export default class GameStorage {
 
   static saveGame(content) {
     localStorage.setItem('currentGame', JSON.stringify(content));

@@ -1,4 +1,4 @@
-import Storage from "./storage.js";
+import GameStorage from "./storage.js";
 
 const template = document.createElement('template');
 template.innerHTML = `
@@ -34,7 +34,7 @@ export default class Stats extends HTMLElement {
     this.shadowRoot.appendChild(this._styles());
     this.shadowRoot.appendChild(template.content.cloneNode(true));
 
-    this.stats = Storage.getStats();
+    this.stats = GameStorage.getStats();
       
     this._updateTemplate();
   }
@@ -65,7 +65,7 @@ export default class Stats extends HTMLElement {
   }
 
   _saveStatsStorage() {
-    Storage.saveStats(this.stats);
+    GameStorage.saveStats(this.stats);
   }
 
   _styles() {
