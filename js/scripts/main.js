@@ -275,6 +275,7 @@ function goToNextLine() {
 
 function reset() {
   GameStorage.clearGame();
+  currentGame = GameStorage.getGame();
   chooseRandomWord();
 
   wordContainer.innerHTML = '';
