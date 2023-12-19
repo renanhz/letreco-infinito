@@ -117,11 +117,6 @@ document.querySelectorAll('.close-btn').forEach(closeBtn => {
   });
 });
 
-resultDialog.addEventListener('close', (event) => {
-  reset(); 
-});
-
-
 function addLetter(key) {
   const currentLineElement = getCurrentLineElement();
   const currentLetterElement = getCurrentLetterElement(currentLineElement);
@@ -228,12 +223,15 @@ function showResultDialog(hasWon) {
 }
 
 function addResultBody(hasWon) {
+  const formerChosenWord = chosenWord;
   const resultBody = resultDialog.querySelector('.result');
   const title = hasWon ? 'Você ganhou!' : 'Que pena, você perdeu...';
 
+  reset();
+
   resultBody.innerHTML = `
     <h2>${title}</h2>
-    <p>A palavra escolhida era: <strong>${chosenWord}</strong></p>
+    <p>A palavra escolhida era: <strong>${formerChosenWord}</strong></p>
   `;
 
   const stats = document.createElement('game-stats');
